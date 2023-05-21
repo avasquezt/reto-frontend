@@ -19,9 +19,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-// Timepicker
-import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
-import { SubmitFormButtonGroupComponent } from './submit-form-button-group/submit-form-button-group.component';
+// Shared components
+import { SubmitFormButtonGroupComponent } from './components/submit-form-button-group/submit-form-button-group.component';
 
 
 @NgModule({
@@ -42,7 +41,6 @@ import { SubmitFormButtonGroupComponent } from './submit-form-button-group/submi
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    NgxMatTimepickerModule,
     MatSelectModule,
     MatTooltipModule,
   ], 
@@ -60,7 +58,6 @@ import { SubmitFormButtonGroupComponent } from './submit-form-button-group/submi
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    NgxMatTimepickerModule,
     MatSelectModule,
     MatTooltipModule,
   ]
