@@ -1,0 +1,19 @@
+<div class="container clearfix my-2">
+    <button mat-raised-button 
+        color="warn" 
+        class="float-end" 
+        type="button" 
+        (click)="redirect(cancelRedirectPath)">
+            CANCELAR
+    </button>
+    <div class="float-end save" 
+        matTooltip="Complete el formulario para enviar" 
+        [matTooltipDisabled]="!submitDisabled">
+        <button mat-raised-button 
+            color="primary"
+            type="submit" 
+            [disabled]="submitDisabled">
+            GUARDAR
+        </button>
+    </div>
+</div>
