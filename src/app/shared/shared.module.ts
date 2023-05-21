@@ -1,7 +1,6 @@
+// Modules
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-// Modules
 import { ReactiveFormsModule } from '@angular/forms';
 
 // Material Angular
@@ -21,11 +20,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 // Shared components
 import { SubmitFormButtonGroupComponent } from './components/submit-form-button-group/submit-form-button-group.component';
+import { TableComponent } from './components/table/table.component';
 
 
 @NgModule({
   declarations: [
-    SubmitFormButtonGroupComponent
+    SubmitFormButtonGroupComponent,
+    TableComponent
   ],
   imports: [
     CommonModule,
@@ -46,6 +47,7 @@ import { SubmitFormButtonGroupComponent } from './components/submit-form-button-
   ], 
   exports: [
     SubmitFormButtonGroupComponent,
+    TableComponent,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,

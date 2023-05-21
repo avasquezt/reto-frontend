@@ -1,0 +1,39 @@
+<table mat-table [dataSource]="tableDataSource">
+    <!-- Column definition -->
+    <ng-container *ngFor="let col of tableColumns" [matColumnDef]="col.columnDef">
+        <!-- Column's header -->
+        <th mat-header-cell *matHeaderCellDef>
+            <!-- Header value -->
+            {{col.header}}
+        </th>
+        <!-- Column's data -->
+        <td mat-cell *matCellDef="let element">
+            <!-- Cell value -->
+            <!-- Format the date -->
+            <ng-container [ngSwitch]="col.type">
+                <ng-container *ngSwitchCase="'date'">
+                    {{element[col.columnDef] | date: (col.dateFormat || 'shortDate')}}
+                </ng-container>
+                <ng-container *ngSwitchCase="'time'">
+                    {{element[col.columnDef] | date: (col.timeFormat || 'shortTime')}}
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                    {{element[col.columnDef]}}
+                </ng-container>
+            </ng-container>
+        </td>
+    </ng-container>
+
+    <ng-container *ngIf="actionColumn" matColumnDef="operation">
+        <th mat-header-cell *matHeaderCellDef>{{actionColumnName}}</th>
+        <td mat-cell *matCellDef="let element" > 
+            <button mat-menu-item (click)="leftButtonAction(element)"><mat-icon>{{actionColumn.leftIcon}}</mat-icon></button>
+            <button mat-menu-item (click)="rightButtonAction(element)"><mat-icon>{{actionColumn.rightIcon}}</mat-icon></button>
+        </td>
+    </ng-container>
+
+    <!-- Header row -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <!-- Data row -->
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
