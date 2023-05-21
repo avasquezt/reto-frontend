@@ -1,0 +1,67 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="my-2">
+
+    <mat-grid-list cols="5" rowHeight="2:1" gutterSize="1rem">
+        <mat-grid-tile>
+
+            <mat-form-field>
+                <mat-label>Seleccione fecha</mat-label>
+                <input matInput [min]="minDate" [matDatepicker]="pickerDate" formControlName="fecha">
+                <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+                <mat-datepicker-toggle matIconSuffix [for]="pickerDate">
+                    <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #pickerDate></mat-datepicker>
+            </mat-form-field>
+
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+
+            <!-- <mat-form-field>
+                <mat-label>Seleccione hora</mat-label>
+                <input matInput [ngxMatTimepicker]="pickerTime" formControlName="hora"/>
+                <ngx-mat-timepicker-toggle matIconSuffix (click)="pickerTime.open()">
+                    <mat-icon matDatepickerToggleIcon> watch_later_outlined</mat-icon>
+                </ngx-mat-timepicker-toggle>
+            </mat-form-field>
+            <ngx-mat-timepicker [enableKeyboardInput]="true" #pickerTime></ngx-mat-timepicker> -->
+            <mat-form-field>
+                <mat-label>Seleccione hora</mat-label>
+                <input matInput type="time" formControlName="hora">
+                <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+                <mat-datepicker-toggle matIconSuffix>
+                    <mat-icon matDatepickerToggleIcon class="material-icons-outlined">watch_later</mat-icon>
+                </mat-datepicker-toggle>
+            </mat-form-field>
+
+        </mat-grid-tile>
+        <mat-grid-tile>
+
+            <mat-form-field>
+                <mat-label>Id Prueba</mat-label>
+                <mat-select formControlName="test">
+                  <mat-option></mat-option>
+                  <mat-option *ngFor="let afiliado of afiliados" [value]="afiliado">{{afiliado}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+              
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+            
+            <mat-form-field>
+                <mat-label>Id Afiliado</mat-label>
+                <mat-select formControlName="usuario">
+                  <mat-option></mat-option>
+                  <mat-option *ngFor="let test of tests" [value]="test">{{test}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </mat-grid-tile>
+        <mat-grid-tile></mat-grid-tile>
+        
+    </mat-grid-list>
+    
+    <submit-form-button-group [cancelRedirectPath]="'citas'" [submitDisabled]="form.invalid"></submit-form-button-group>
+
+</form>
