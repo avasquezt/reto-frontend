@@ -2,6 +2,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 // Material Angular
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -21,12 +22,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 // Shared components
 import { SubmitFormButtonGroupComponent } from './components/submit-form-button-group/submit-form-button-group.component';
 import { TableComponent } from './components/table/table.component';
+import { CreateElementButtonComponent } from './components/create-element-button/create-element-button.component';
+
 
 
 @NgModule({
   declarations: [
     SubmitFormButtonGroupComponent,
-    TableComponent
+    TableComponent,
+    CreateElementButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -44,10 +48,12 @@ import { TableComponent } from './components/table/table.component';
     MatNativeDateModule,
     MatSelectModule,
     MatTooltipModule,
+    RouterModule,
   ], 
   exports: [
     SubmitFormButtonGroupComponent,
     TableComponent,
+    CreateElementButtonComponent,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
@@ -62,6 +68,7 @@ import { TableComponent } from './components/table/table.component';
     MatNativeDateModule,
     MatSelectModule,
     MatTooltipModule,
+    RouterModule,
   ]
 })
 export class SharedModule { }

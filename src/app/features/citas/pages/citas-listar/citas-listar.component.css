@@ -1,8 +1,0 @@
-table {
-    width: 100%;
-}
-
-.mat-mdc-cell, .mat-mdc-header-cell{
-    text-align: center;
-    justify-content:center;
-}
