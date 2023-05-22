@@ -1,6 +1,7 @@
 export interface Cita{
+    id?: number;
     fecha: Date;
-    hora: Date;
+    hora: string;
     usuario: number;
     test: number;
 }
