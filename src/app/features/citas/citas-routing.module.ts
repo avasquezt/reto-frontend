@@ -9,7 +9,7 @@ const routes: Routes = [
   {path:'', component:CitasComponent, children:[
     {path:'', component:CitasListarComponent},
     {path:'agregar', component:CitasAgregarComponent},
-    {path:'modificar', component:CitasModificarComponent},
+    {path:'modificar/:id', component:CitasModificarComponent},
   ]}
 ];
 
