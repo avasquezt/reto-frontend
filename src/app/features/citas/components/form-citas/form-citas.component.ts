@@ -30,12 +30,13 @@ export class FormCitasComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['cita']?.currentValue) {
       // Set the initial value of the form
-      this.form.setValue({
-        fecha: this.cita.fecha,
-        hora: `${this.cita.hora.getHours()}:${this.cita.hora.getMinutes()}`,
-        usuario: String(this.cita.usuario),
-        test: String(this.cita.test),
-      });
+       this.form.setValue(this.cita);
+      // this.form.setValue({
+      //   fecha: this.cita.fecha,
+      //   hora: `${this.cita.hora.getHours()}:${this.cita.hora.getMinutes()}`,
+      //   usuario: String(this.cita.usuario),
+      //   test: String(this.cita.test),
+      // });
       // Trigger input validations
       for (var i in this.form.controls) {
         this.form.controls[i].markAsTouched();
@@ -66,20 +67,20 @@ export class FormCitasComponent implements OnChanges {
     this.router.navigate(['citas']);
   }
 
-  afiliados: string[] = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
+  afiliados: number[] = [
+    1,
+    2,
+    3,
+    4,
+    5,
   ];
 
-  tests: string[] = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
+  tests: number[] = [
+    1,
+    2,
+    3,
+    4,
+    5,
   ];
               
 }
