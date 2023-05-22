@@ -4,7 +4,7 @@ import { TableColumn } from '../../models/TableColumn.model';
 import { TableActionColumn } from '../../models/TableActionColumn.model';
 
 @Component({
-  selector: 'table',
+  selector: 'table-template',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
