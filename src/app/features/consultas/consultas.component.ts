@@ -1,9 +1,12 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { identifierName } from '@angular/compiler';
 
-import { ChangeDetectorRef, Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { ChangeDetectorRef, Component, QueryList, ViewChildren } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { Afiliado } from 'src/app/core/models/afiliado';
+import { Cita } from 'src/app/core/models/cita.model';
 import { HeaderService } from 'src/app/core/services/header.service';
+import { TableColumn } from 'src/app/shared/models/TableColumn.model';
 
 @Component({
   selector: 'app-consultas',
@@ -22,37 +25,66 @@ export class ConsultasComponent {
   constructor(private headerService: HeaderService, private cd: ChangeDetectorRef){
     this.headerService.setHeader('Consultas');
   }
-
-  @ViewChild('outerSort', { static: true }) sort!: MatSort;
-  @ViewChildren('innerSort') innerSort!: QueryList<MatSort>;
-  @ViewChildren('innerTables') innerTables!: QueryList<MatTable<Address>>;
   
-  dataSource!: MatTableDataSource<User>;
-  usersData: User[] = [];
-  columnsToDisplay = ['name', 'email', 'phone'];
+  dataSource!: MatTableDataSource<Afiliado>;
+  usersData!: Afiliado[];
+  columnsToDisplay! : string[];
   innerDisplayedColumns = ['street', 'zipCode', 'city'];
   expandedElement!: User | null;
 
-  ngOnInit() {
-    USERS.forEach(user => {
-      if (user.addresses && Array.isArray(user.addresses) && user.addresses.length) {
-        this.usersData = [...this.usersData, {...user, addresses: new MatTableDataSource(user.addresses)}];
-      } else {
-        this.usersData = [...this.usersData, user];
-      }
-    });
-    this.dataSource = new MatTableDataSource(this.usersData);
-    this.dataSource.sort = this.sort;
-  }
+  columns!: TableColumn[];
+  citas!: Cita[];
 
-  toggleRow(element: User) {
-    element.addresses && (element.addresses as MatTableDataSource<Address>).data.length ? (this.expandedElement = this.expandedElement === element ? null : element) : null;
-    this.cd.detectChanges();
-    this.innerTables.forEach((table, index) => (table.dataSource as MatTableDataSource<Address>).sort = this.innerSort.toArray()[index]);
+  innerTableColumns!: TableColumn[];
+
+  IdAfiliadoFilter: string | undefined;
+  fechaFilter: Date | undefined;
+
+  ngOnInit() {
+
+    this.usersData = USERS;
+    this.dataSource = new MatTableDataSource(this.usersData);
+
+    this.dataSource.filterPredicate = function(data, filter: string): boolean {
+      return String(data.id).startsWith(filter);
+    };
+
+    this.columns = [
+      {columnDef: 'id', header:'Id Afiliado', type: 'number'},
+      {columnDef: 'nombre', header:'Nombre', type: 'string'},
+      {columnDef: 'edad', header:'Edad', type: 'number'},
+      {columnDef: 'correo', header:'Correo', type: 'string'},
+    ]
+
+    this.innerTableColumns = [
+      {columnDef: 'id', header:'Id', type: 'number'},
+      {columnDef: 'fecha', header:'Fecha', type: 'date', dateFormat:'dd/MM/yyyy'},
+      {columnDef: 'hora', header:'Hora', type: 'string'},
+      {columnDef: 'test', header:'Nombre de prueba', type: 'number'}
+    ]
+
+    this.columnsToDisplay = ['expandIconColumn'].concat(this.columns.map(e => e.columnDef));
   }
 
   applyFilter(filterValue: string) {
-    this.innerTables.forEach((table, index) => (table.dataSource as MatTableDataSource<Address>).filter = filterValue.trim().toLowerCase());
+    this.dataSource.filter = filterValue.trim();
+  }
+
+  filterAfiliado(){
+    this.applyFilter(this.IdAfiliadoFilter || '');
+  }
+
+  filterFecha(){
+    console.log(this.fechaFilter)
+  }
+
+  toggleRow(element: User) {
+    // element.addresses && (element.addresses as MatTableDataSource<Address>).data.length ? (this.expandedElement = this.expandedElement === element ? null : element) : null;
+    // if(element.addresses && (element.addresses as MatTableDataSource<Address>).data.length){
+    //   this.expandedElement = this.expandedElement === element ? null : element;
+    // }
+    this.citas = CITAS;
+    this.cd.detectChanges();
   }
 }
 
@@ -69,51 +101,16 @@ export interface Address {
   city: string;
 }
 
-export interface UserDataSource {
-  name: string;
-  email: string;
-  phone: string;
-  addresses?: MatTableDataSource<Address>;
-}
+const USERS: Afiliado[] = [
+  {id:1, nombre:'Afiliado1', edad:25, correo:'afiliado1@mail.com'},
+  {id:2, nombre:'Afiliado2', edad:25, correo:'afiliado2@mail.com'},
+  {id:3, nombre:'Afiliado3', edad:25, correo:'afiliado3@mail.com'},
+  {id:11, nombre:'Afiliado3', edad:25, correo:'afiliado3@mail.com'},
+  {id:23, nombre:'Afiliado3', edad:25, correo:'afiliado3@mail.com'},
+];
 
-const USERS: User[] = [
-  {
-    name: "Mason",
-    email: "mason@test.com",
-    phone: "9864785214",
-    addresses: [
-      {
-        street: "Street 1",
-        zipCode: "78542",
-        city: "Kansas"
-      },
-      {
-        street: "Street 2",
-        zipCode: "78554",
-        city: "Texas"
-      }
-    ]
-  },
-  {
-    name: "Eugene",
-    email: "eugene@test.com",
-    phone: "8786541234",
-  },
-  {
-    name: "Jason",
-    email: "jason@test.com",
-    phone: "7856452187",
-    addresses: [
-      {
-        street: "Street 5",
-        zipCode: "23547",
-        city: "Utah"
-      },
-      {
-        street: "Street 5",
-        zipCode: "23547",
-        city: "Ohio"
-      }
-    ]
-  }
+const CITAS: Cita[] = [
+  {id: 1, fecha: new Date('2023-05-18T00:00'), hora: "10:30", usuario: 1, test: 1},
+  {id: 2, fecha: new Date('2023-01-01T00:00'), hora: "15:30", usuario: 1, test: 1},
+  {id: 3, fecha: new Date('2023-12-31T00:00'), hora: "00:00", usuario: 1, test: 3},
 ];
