@@ -61,7 +61,7 @@
               ]
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -70,7 +70,8 @@
               "browserTarget": "reto_frontend:build:production"
             },
             "development": {
-              "browserTarget": "reto_frontend:build:development"
+              "browserTarget": "reto_frontend:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
