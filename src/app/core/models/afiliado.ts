@@ -1,5 +1,5 @@
 export interface Afiliado{
-    id: number,
+    id?: number,
     edad: number,
     nombre: string
     correo: string,
