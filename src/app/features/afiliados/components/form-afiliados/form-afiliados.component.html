@@ -1,0 +1,42 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="my-2">
+
+    <mat-grid-list cols="5" rowHeight="2:1" gutterSize="1rem">
+        <mat-grid-tile>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Nombre Completo</mat-label>
+                <input matInput formControlName="nombre" type="text">
+            </mat-form-field>
+
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+
+        <mat-form-field class="example-full-width">
+            <mat-label>Correo Electr&oacute;nico</mat-label>
+            <input type="email" matInput formControlName="correo"
+                    placeholder="Ex. pat@example.com">
+            <mat-hint>Errors appear instantly!</mat-hint>
+            <mat-error *ngIf="form.hasError('email') && !form.hasError('required')">
+                Please enter a valid email address
+            </mat-error>
+            <mat-error *ngIf="form.hasError('required')">
+                Email is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+
+        </mat-grid-tile>
+        <mat-grid-tile>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Edad</mat-label>
+                <input matInput formControlName="edad" type="number" min="0">
+            </mat-form-field>
+              
+        </mat-grid-tile>
+        
+    </mat-grid-list>
+    
+    <submit-form-button-group [cancelRedirectPath]="'afiliados'" [submitDisabled]="form.invalid"></submit-form-button-group>
+
+</form>
