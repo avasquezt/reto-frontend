@@ -1,1 +1,3 @@
-<form-citas [cita]="cita"></form-citas>
+<form-citas [cita] = "cita" 
+            (submitForm) = "updateCita($event)">
+</form-citas>
