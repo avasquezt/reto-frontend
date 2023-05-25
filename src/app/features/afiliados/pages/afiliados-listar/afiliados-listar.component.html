@@ -1,0 +1,14 @@
+<div class="my-2">
+    <create-element-button [buttonRedirectPath] = "['agregar']">
+        Nuevo Afiliado
+    </create-element-button>
+</div>
+
+<div class="mat-elevation-z4 my-2">
+    <table-template [tableData] = "afiliados"
+                    [tableColumns] = "columns"
+                    [actionColumn] = "actionColumn"
+                    (leftButtonEmitter) = "updateAfiliado($event)"
+                    (rightButtonEmitter) = "deleteAfiliado($event)">
+    </table-template>
+</div>
