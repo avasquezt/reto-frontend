@@ -1,0 +1,14 @@
+<div class="my-2">
+    <create-element-button [buttonRedirectPath] = "['agregar']">
+        Nueva Prueba
+    </create-element-button>
+</div>
+
+<div class="mat-elevation-z4 my-2">
+    <table-template [tableData] = "pruebas"
+                    [tableColumns] = "columns"
+                    [actionColumn] = "actionColumn"
+                    (leftButtonEmitter) = "updatePrueba($event)"
+                    (rightButtonEmitter) = "deletePrueba($event)">
+    </table-template>
+</div>
