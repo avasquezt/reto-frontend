@@ -1,0 +1,22 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="my-2">
+
+    <mat-grid-list cols="5" rowHeight="2:1" gutterSize="1rem">
+        <mat-grid-tile>
+            <mat-form-field class="example-full-width">
+                <mat-label>Nombre</mat-label>
+                <input matInput formControlName="nombre" type="text">
+            </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+            <mat-form-field class="example-full-width">
+                <mat-label>Descripci&oacute;n</mat-label>
+                <input matInput formControlName="descripcion" type="text">
+            </mat-form-field>
+        </mat-grid-tile>
+        
+    </mat-grid-list>
+    
+    <submit-form-button-group [cancelRedirectPath]="'pruebas'" [submitDisabled]="form.invalid"></submit-form-button-group>
+
+</form>
