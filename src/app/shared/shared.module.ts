@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 // Material Angular
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -23,6 +24,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SubmitFormButtonGroupComponent } from './components/submit-form-button-group/submit-form-button-group.component';
 import { TableComponent } from './components/table/table.component';
 import { CreateElementButtonComponent } from './components/create-element-button/create-element-button.component';
+
 
 
 
@@ -50,6 +52,7 @@ import { CreateElementButtonComponent } from './components/create-element-button
     MatTooltipModule,
     RouterModule,
     FormsModule,
+    HttpClientModule,
   ], 
   exports: [
     SubmitFormButtonGroupComponent,
@@ -71,6 +74,7 @@ import { CreateElementButtonComponent } from './components/create-element-button
     MatTooltipModule,
     RouterModule,
     FormsModule,
+    HttpClientModule,
   ]
 })
 export class SharedModule { }
