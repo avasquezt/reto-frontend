@@ -1,12 +1,20 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { identifierName } from '@angular/compiler';
 
-import { ChangeDetectorRef, Component, QueryList, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Afiliado } from 'src/app/core/models/afiliado';
+import { Afiliado } from 'src/app/core/models/afiliado.model';
 import { Cita } from 'src/app/core/models/cita.model';
 import { HeaderService } from 'src/app/core/services/header.service';
 import { TableColumn } from 'src/app/shared/models/TableColumn.model';
+import { AfiliadoService } from '../afiliados/services/afiliado.service';
+import { PruebaService } from '../pruebas/services/prueba.service';
+import { CitaService } from '../citas/services/cita.service';
+import { CitaMapperService } from '../citas/services/cita-mapper.service';
+import { AfiliadoMapperService } from '../afiliados/services/afiliado-mapper.service';
+import { PruebaMapperService } from '../pruebas/services/prueba-mapper.service';
+import { forkJoin } from 'rxjs';
+import { Moment } from 'moment';
+import { Prueba } from 'src/app/core/models/prueba.model';
 
 @Component({
   selector: 'app-consultas',
@@ -22,32 +30,39 @@ import { TableColumn } from 'src/app/shared/models/TableColumn.model';
 })
 export class ConsultasComponent {
 
-  constructor(private headerService: HeaderService, private cd: ChangeDetectorRef){
-    this.headerService.setHeader('Consultas');
+  constructor(
+    private headerService: HeaderService, 
+    private cd: ChangeDetectorRef,
+    private afiliadoService: AfiliadoService,
+    private pruebaService: PruebaService,
+    private citaService: CitaService,
+    private citaMapper: CitaMapperService,
+    private afiliadoMapper: AfiliadoMapperService,
+    private pruebaMapper: PruebaMapperService,
+    ){
+      this.headerService.setHeader('Consultas');
   }
   
+  // Outer table data
   dataSource!: MatTableDataSource<Afiliado>;
-  usersData!: Afiliado[];
-  columnsToDisplay! : string[];
-  innerDisplayedColumns = ['street', 'zipCode', 'city'];
-  expandedElement!: User | null;
-
+  afiliados: Afiliado[] = [];
   columns!: TableColumn[];
-  citas!: Cita[];
+  columnsToDisplay! : string[];
+  expandedElement!: Afiliado | null;
 
+
+  // Inner table data
+  citas: Cita[] = [];
+  displayedCitas: any[] = [];
   innerTableColumns!: TableColumn[];
 
-  IdAfiliadoFilter: string | undefined;
-  fechaFilter: Date | undefined;
+  // Filter values
+  IdAfiliadoFilter: number | undefined;
+  fechaFilter: Moment | undefined;
 
   ngOnInit() {
 
-    this.usersData = USERS;
-    this.dataSource = new MatTableDataSource(this.usersData);
-
-    this.dataSource.filterPredicate = function(data, filter: string): boolean {
-      return String(data.id).startsWith(filter);
-    };
+    this.displayedCitas = [];
 
     this.columns = [
       {columnDef: 'id', header:'Id Afiliado', type: 'number'},
@@ -60,57 +75,74 @@ export class ConsultasComponent {
       {columnDef: 'id', header:'Id', type: 'number'},
       {columnDef: 'fecha', header:'Fecha', type: 'date', dateFormat:'dd/MM/yyyy'},
       {columnDef: 'hora', header:'Hora', type: 'string'},
-      {columnDef: 'test', header:'Nombre de prueba', type: 'number'}
+      {columnDef: 'test', header:'Nombre de prueba', type: 'string'}
     ]
 
     this.columnsToDisplay = ['expandIconColumn'].concat(this.columns.map(e => e.columnDef));
   }
 
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim();
+  applyFilter(): void{
+    let idAfiliados: number[] = [];
+    
+    this.citaService.getCitas(this.IdAfiliadoFilter, this.fechaFilter?.format('DD/MM/YYYY'))
+        .subscribe(
+          data => {
+            if(data){
+              // Obtain the appointments
+              this.citas = data.map(cita => this.citaMapper.citaAPIToCita(cita));
+              
+              // Obtain the affiliate ids
+              idAfiliados = data.map(e => e.idAffiliate);
+              idAfiliados = [...(new Set(idAfiliados))];
+            }
+
+              // Load the affiliates to the outer table
+              this.getAfiliados(idAfiliados);
+
+        });
   }
 
-  filterAfiliado(){
-    this.applyFilter(this.IdAfiliadoFilter || '');
+  toggleRow(element: Afiliado) {
+    
+    // Filter dates by chosen affiliate
+    let citas = this.citas.filter(cita => cita.afiliado === element.id && cita.id != null);
+
+    // Obtain the test ids
+    let testIds = citas.map(cita => cita.test);
+
+    // Make the tests ids unique
+    testIds = [...(new Set(testIds))];
+    
+    // Generate the observables to query the tests API and obtain the names
+    let observables = testIds.map(id => this.pruebaService.getPruebaById(id));
+    
+    // Array to save the tests reponse
+    let tests: Prueba[] = [];
+
+    forkJoin(observables).subscribe(data => {
+        tests = data.map(this.pruebaMapper.pruebaAPIToPrueba);
+      }, null,
+      () => {
+        // Show the appointmenst of the current user, adding the name of the tests
+        this.displayedCitas = citas.map(cita => ({...cita, test: tests.find(t => t.id == cita.test)?.nombre}));
+      });
+    // this.cd.detectChanges();
   }
 
-  filterFecha(){
-    console.log(this.fechaFilter)
-  }
+  getAfiliados(idAfiliados: number[]): void{
 
-  toggleRow(element: User) {
-    // element.addresses && (element.addresses as MatTableDataSource<Address>).data.length ? (this.expandedElement = this.expandedElement === element ? null : element) : null;
-    // if(element.addresses && (element.addresses as MatTableDataSource<Address>).data.length){
-    //   this.expandedElement = this.expandedElement === element ? null : element;
-    // }
-    this.citas = CITAS;
-    this.cd.detectChanges();
+    this.afiliados = [];
+
+    let observables = idAfiliados.map(id => this.afiliadoService.getAfiliadoById(id));
+
+    forkJoin(observables)
+      .subscribe(data => {
+          this.afiliados = data.map(this.afiliadoMapper.afiliadoAPIToAfiliado);
+        },
+        null,
+        () => {
+          this.dataSource = new MatTableDataSource(this.afiliados);
+        });
+    
   }
 }
-
-export interface User {
-  name: string;
-  email: string;
-  phone: string;
-  addresses?: Address[] | MatTableDataSource<Address>;
-}
-
-export interface Address {
-  street: string;
-  zipCode: string;
-  city: string;
-}
-
-const USERS: Afiliado[] = [
-  {id:1, nombre:'Afiliado1', edad:25, correo:'afiliado1@mail.com'},
-  {id:2, nombre:'Afiliado2', edad:25, correo:'afiliado2@mail.com'},
-  {id:3, nombre:'Afiliado3', edad:25, correo:'afiliado3@mail.com'},
-  {id:11, nombre:'Afiliado3', edad:25, correo:'afiliado3@mail.com'},
-  {id:23, nombre:'Afiliado3', edad:25, correo:'afiliado3@mail.com'},
-];
-
-const CITAS: Cita[] = [
-  {id: 1, fecha: new Date('2023-05-18T00:00'), hora: "10:30", usuario: 1, test: 1},
-  {id: 2, fecha: new Date('2023-01-01T00:00'), hora: "15:30", usuario: 1, test: 1},
-  {id: 3, fecha: new Date('2023-12-31T00:00'), hora: "00:00", usuario: 1, test: 3},
-];
