@@ -21,7 +21,7 @@ import { CitasListarComponent } from './pages/citas-listar/citas-listar.componen
   imports: [
     CommonModule,
     CitasRoutingModule,
-    SharedModule
+    SharedModule.forRoot(),
   ],
   providers:[]
 })

@@ -21,7 +21,7 @@ import { FormAfiliadosComponent } from './components/form-afiliados/form-afiliad
   imports: [
     CommonModule,
     AfiliadosRoutingModule,
-    SharedModule,
+    SharedModule.forRoot(),
   ]
 })
 export class AfiliadosModule { }

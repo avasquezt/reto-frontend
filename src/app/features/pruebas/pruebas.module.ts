@@ -21,7 +21,7 @@ import { PruebasListarComponent } from './pages/pruebas-listar/pruebas-listar.co
   imports: [
     CommonModule,
     PruebasRoutingModule,
-    SharedModule,
+    SharedModule.forRoot(),
   ]
 })
 export class PruebasModule { }

@@ -6,9 +6,6 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from '@angular/cdk/layout';
 
-// Material
-import { MAT_DATE_LOCALE } from '@angular/material/core';
-
 // Modules
 import { SharedModule } from './shared/shared.module';
 
@@ -28,9 +25,9 @@ import { ConsultasComponent } from './features/consultas/consultas.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     LayoutModule,
-    SharedModule
+    SharedModule.forRoot(),
   ],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

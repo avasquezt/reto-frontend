@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as moment from 'moment';
 import { CitaAPI } from 'src/app/core/models/DTO/citaAPI.model';
 import { Cita } from 'src/app/core/models/cita.model';
 
@@ -13,7 +14,7 @@ export class CitaMapperService {
   citaToCitaAPI(cita: Cita): CitaAPI{
     const citaAPI: CitaAPI = {
       id: cita.id,
-      date: cita.fecha.toLocaleDateString('en-GB'),
+      date: cita.fecha.format('DD/MM/YYYY'),
       hour: cita.hora,
       idTest: cita.test,
       idAffiliate: cita.afiliado,
@@ -22,10 +23,9 @@ export class CitaMapperService {
   }
 
   citaAPIToCita(citaAPI: CitaAPI): Cita{
-    let [date, month, year] = citaAPI.date.split('/');
     const cita: Cita = {
       id: citaAPI.id,
-      fecha: (new Date(`${year}-${month}-${date}T00:00`)),
+      fecha: moment(citaAPI.date, "DD/MM/YYYY"),
       hora: citaAPI.hour,
       afiliado: citaAPI.idAffiliate,
       test: citaAPI.idTest

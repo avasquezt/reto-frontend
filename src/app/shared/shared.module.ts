@@ -1,5 +1,5 @@
 // Modules
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -19,14 +19,17 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // Shared components
 import { SubmitFormButtonGroupComponent } from './components/submit-form-button-group/submit-form-button-group.component';
 import { TableComponent } from './components/table/table.component';
 import { CreateElementButtonComponent } from './components/create-element-button/create-element-button.component';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
-
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -53,6 +56,8 @@ import { CreateElementButtonComponent } from './components/create-element-button
     RouterModule,
     FormsModule,
     HttpClientModule,
+    MatProgressSpinnerModule,
+    MatMomentDateModule,
   ], 
   exports: [
     SubmitFormButtonGroupComponent,
@@ -75,6 +80,30 @@ import { CreateElementButtonComponent } from './components/create-element-button
     RouterModule,
     FormsModule,
     HttpClientModule,
+    MatProgressSpinnerModule,
+    MatMomentDateModule
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+
+  static forRoot(): ModuleWithProviders<SharedModule> {
+    return {
+      ngModule: SharedModule,
+      providers: [
+        {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+        { provide: MAT_DATE_FORMATS , 
+          useValue: {
+              parse: {
+                dateInput: 'DD/MM/YYYY',
+              },
+              display: {
+                dateInput: 'DD/MM/YYYY',
+                monthYearLabel: 'MMM YYYY',
+            },
+          }, 
+        }
+      ]
+    };
+  }
+
+}
