@@ -5,6 +5,7 @@ import { AfiliadoMapperService } from '../../services/afiliado-mapper.service';
 import { Router } from '@angular/router';
 import { Afiliado } from 'src/app/core/models/afiliado.model';
 import { AfiliadoAPI } from 'src/app/core/models/DTO/afiliadoAPI.model';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
 @Component({
   selector: 'app-afiliados-agregar',
@@ -18,6 +19,7 @@ export class AfiliadosAgregarComponent {
     private serviceAfiliado: AfiliadoService,
     private afiliadoMapper: AfiliadoMapperService,
     private router: Router,
+    private notificationService: NotificationService,
     ){
       this.headerService.setHeader('Afiliados - Nuevo afiliado');
   }
@@ -25,7 +27,7 @@ export class AfiliadosAgregarComponent {
   createAfiliado($element: Afiliado){
     let afiliadoAPI: AfiliadoAPI = this.afiliadoMapper.afiliadoToAfilidoAPI($element);
     this.serviceAfiliado.createAfiliado(afiliadoAPI).subscribe(data => {
-      console.log(data);
+      this.notificationService.openNotification('Afiliado creado correctamente', 'Aceptar');
     }, 
     null,
     () => {

@@ -6,6 +6,9 @@ import { TableActionColumn } from 'src/app/shared/models/TableActionColumn.model
 import { TableColumn } from 'src/app/shared/models/TableColumn.model';
 import { AfiliadoService } from '../../services/afiliado.service';
 import { AfiliadoMapperService } from '../../services/afiliado-mapper.service';
+import { ConfirmationDialogService } from 'src/app/shared/services/confirmation-dialog.service';
+import { NotificationService } from 'src/app/shared/services/notification.service';
+import { EMPTY, concatMap } from 'rxjs';
 
 @Component({
   selector: 'app-afiliados-listar',
@@ -22,6 +25,8 @@ export class AfiliadosListarComponent implements OnInit{
               private router: Router, 
               private serviceAfiliado: AfiliadoService,
               private afiiadoMapper: AfiliadoMapperService,
+              private confirmDialog: ConfirmationDialogService,
+              private notificationService: NotificationService,
   ){}
 
   ngOnInit(): void {
@@ -52,13 +57,22 @@ export class AfiliadosListarComponent implements OnInit{
   }
   
   deleteAfiliado($element: Afiliado): void{
-    $element.id && this.serviceAfiliado.deleteAfiliado($element.id).subscribe(data => {
-        console.log(data);
-        // this.citas = this.citas.filter(e => e.id != $element.id);
-        }, 
-        null,
-        () => {
-          this.resetPage()
+
+    let confirm = this.confirmDialog.confirmDialog({
+      title: 'Confirmación de borrado',
+      message: `Esta seguro de que sea eliminar el afiliado con Id: ${$element.id}?`,
+      confirmText: 'Aceptar',
+      cancelText: 'Cancelar',
+    });
+  
+    confirm.pipe(concatMap(data => {
+        if(data && $element.id){
+            return this.serviceAfiliado.deleteAfiliado($element.id); 
+        }
+        return EMPTY;
+      })).subscribe(data=> {
+        this.resetPage();
+        this.notificationService.openNotification("Afiliado elmininado correctamente", "Aceptar");
       });
   }
 

@@ -6,6 +6,7 @@ import { HeaderService } from 'src/app/core/services/header.service';
 import { AfiliadoService } from '../../services/afiliado.service';
 import { AfiliadoMapperService } from '../../services/afiliado-mapper.service';
 import { AfiliadoAPI } from 'src/app/core/models/DTO/afiliadoAPI.model';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
 @Component({
   selector: 'app-afiliados-modificar',
@@ -24,6 +25,7 @@ export class AfiliadosModificarComponent implements OnInit, OnDestroy{
       private router: Router,
       private serviceAfiliado: AfiliadoService,
       private afiliadoMapper: AfiliadoMapperService,
+      private notificationService: NotificationService,
     ){
       this.headerService.setHeader('Afiliados - Actualizar afiliado');
   }
@@ -50,7 +52,7 @@ export class AfiliadosModificarComponent implements OnInit, OnDestroy{
     let afiliadoAPI: AfiliadoAPI = this.afiliadoMapper.afiliadoToAfilidoAPI($element);
     if(this.idAfiliado){
       this.serviceAfiliado.updateAfiliado(this.idAfiliado, afiliadoAPI).subscribe(data => {
-          console.log(data);
+          this.notificationService.openNotification('Afiliado modificado correctamente', 'Aceptar');
         }, 
         null,
         () => {
