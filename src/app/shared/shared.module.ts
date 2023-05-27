@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
 // Material Angular
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -20,22 +22,22 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 // Shared components
 import { SubmitFormButtonGroupComponent } from './components/submit-form-button-group/submit-form-button-group.component';
 import { TableComponent } from './components/table/table.component';
 import { CreateElementButtonComponent } from './components/create-element-button/create-element-button.component';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
-
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
   declarations: [
     SubmitFormButtonGroupComponent,
     TableComponent,
     CreateElementButtonComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -58,6 +60,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
     HttpClientModule,
     MatProgressSpinnerModule,
     MatMomentDateModule,
+    MatDialogModule,
   ], 
   exports: [
     SubmitFormButtonGroupComponent,
@@ -81,7 +84,8 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
     FormsModule,
     HttpClientModule,
     MatProgressSpinnerModule,
-    MatMomentDateModule
+    MatMomentDateModule,
+    MatDialogModule,
   ]
 })
 export class SharedModule {
