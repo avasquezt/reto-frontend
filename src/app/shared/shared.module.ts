@@ -24,6 +24,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatSnackBarModule} from '@angular/material/snack-bar';
 
 // Shared components
 import { SubmitFormButtonGroupComponent } from './components/submit-form-button-group/submit-form-button-group.component';
@@ -61,6 +62,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     MatProgressSpinnerModule,
     MatMomentDateModule,
     MatDialogModule,
+    MatSnackBarModule,
   ], 
   exports: [
     SubmitFormButtonGroupComponent,
@@ -86,6 +88,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     MatProgressSpinnerModule,
     MatMomentDateModule,
     MatDialogModule,
+    MatSnackBarModule,
   ]
 })
 export class SharedModule {
