@@ -6,6 +6,9 @@ import { TableActionColumn } from 'src/app/shared/models/TableActionColumn.model
 import { TableColumn } from 'src/app/shared/models/TableColumn.model';
 import { CitaService } from '../../services/cita.service';
 import { CitaMapperService } from '../../services/cita-mapper.service';
+import { ConfirmationDialogService } from 'src/app/shared/services/confirmation-dialog.service';
+import { EMPTY, concatMap } from 'rxjs';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
 @Component({
   selector: 'app-citas-listar',
@@ -21,7 +24,9 @@ export class CitasListarComponent implements OnInit{
   constructor(private headerService: HeaderService, 
               private router: Router, 
               private serviceCita: CitaService,
-              private citaMapper: CitaMapperService
+              private citaMapper: CitaMapperService,
+              private confirmDialog: ConfirmationDialogService,
+              private notificationService: NotificationService,
   ){}
   
   ngOnInit(): void {
@@ -48,18 +53,27 @@ export class CitasListarComponent implements OnInit{
   }
   
   updateCita($element: Cita): void{
-    console.info($element);
+    // console.info($element);
     this.router.navigate(['citas/modificar', $element.id]);
   }
   
   deleteCita($element: Cita): void{
-    $element.id && this.serviceCita.deleteCita($element.id).subscribe(data => {
-        console.log(data);
-        // this.citas = this.citas.filter(e => e.id != $element.id);
-        }, 
-        null,
-        () => {
-          this.resetPage()
+    
+    let confirm = this.confirmDialog.confirmDialog({
+      title: 'Confirmación de borrado',
+      message: `Esta seguro de que sea eliminar la cita con Id: ${$element.id}?`,
+      confirmText: 'Aceptar',
+      cancelText: 'Cancelar',
+    });
+
+    confirm.pipe(concatMap(data => {
+        if(data && $element.id){
+            return this.serviceCita.deleteCita($element.id); 
+        }
+        return EMPTY;
+      })).subscribe(data=> {
+        this.resetPage();
+        this.notificationService.openNotification("Cita elmininada correctamente", "Aceptar");
       });
   }
 

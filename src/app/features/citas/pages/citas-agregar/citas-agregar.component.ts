@@ -5,6 +5,7 @@ import { HeaderService } from 'src/app/core/services/header.service';
 import { CitaService } from '../../services/cita.service';
 import { CitaMapperService } from '../../services/cita-mapper.service';
 import { Router } from '@angular/router';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
 @Component({
   selector: 'app-citas-agregar',
@@ -18,6 +19,7 @@ export class CitasAgregarComponent {
     private serviceCita: CitaService,
     private citaMapper: CitaMapperService,
     private router: Router,
+    private notificationService: NotificationService,
     ){
       this.headerService.setHeader('Citas - Nueva cita');
   }
@@ -26,6 +28,7 @@ export class CitasAgregarComponent {
     let citaAPI: CitaAPI = this.citaMapper.citaToCitaAPI($element);
     this.serviceCita.createCita(citaAPI).subscribe(data => {
       console.log(data);
+      this.notificationService.openNotification('Cita creada correctamente', 'Aceptar');
     }, 
     null,
     () => {

@@ -6,6 +6,7 @@ import { HeaderService } from 'src/app/core/services/header.service';
 import { CitaService } from '../../services/cita.service';
 import { CitaMapperService } from '../../services/cita-mapper.service';
 import { CitaAPI } from 'src/app/core/models/DTO/citaAPI.model';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
 @Component({
   selector: 'app-citas-modificar',
@@ -24,6 +25,7 @@ export class CitasModificarComponent implements OnInit, OnDestroy{
       private router: Router,
       private serviceCita: CitaService,
       private citaMapper: CitaMapperService,
+      private notificationService: NotificationService,
     ){
       this.headerService.setHeader('Citas - Actualizar cita');
   }
@@ -49,7 +51,7 @@ export class CitasModificarComponent implements OnInit, OnDestroy{
     let citaAPI: CitaAPI = this.citaMapper.citaToCitaAPI($element);
     if(this.idCita){
       this.serviceCita.updateCita(this.idCita, citaAPI).subscribe(data => {
-          console.log(data);
+          this.notificationService.openNotification('Cita modificada correctamente', 'Aceptar');
         }, 
         null,
         () => {
