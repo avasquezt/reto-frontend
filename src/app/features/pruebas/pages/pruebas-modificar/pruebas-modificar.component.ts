@@ -6,6 +6,7 @@ import { HeaderService } from 'src/app/core/services/header.service';
 import { PruebaService } from '../../services/prueba.service';
 import { PruebaMapperService } from '../../services/prueba-mapper.service';
 import { PruebaAPI } from 'src/app/core/models/DTO/pruebaAPI.model';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
 @Component({
   selector: 'app-pruebas-modificar',
@@ -24,6 +25,7 @@ export class PruebasModificarComponent implements OnInit, OnDestroy{
       private router: Router,
       private servicePrueba: PruebaService,
       private pruebaMapper: PruebaMapperService,
+      private notificationService: NotificationService,
     ){
       this.headerService.setHeader('Pruebas - Actualizar prueba');
   }
@@ -49,7 +51,7 @@ export class PruebasModificarComponent implements OnInit, OnDestroy{
     let pruebaAPI: PruebaAPI = this.pruebaMapper.pruebaToPruebaAPI($element);
     if(this.idPrueba){
       this.servicePrueba.updatePrueba(this.idPrueba, pruebaAPI).subscribe(data => {
-          console.log(data);
+        this.notificationService.openNotification('Prueba modificada correctamente', 'Aceptar');
         }, 
         null,
         () => {

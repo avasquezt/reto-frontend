@@ -5,6 +5,7 @@ import { PruebaMapperService } from '../../services/prueba-mapper.service';
 import { Router } from '@angular/router';
 import { Prueba } from 'src/app/core/models/prueba.model';
 import { PruebaAPI } from 'src/app/core/models/DTO/pruebaAPI.model';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
 @Component({
   selector: 'app-pruebas-agregar',
@@ -18,6 +19,7 @@ export class PruebasAgregarComponent {
     private servicePrueba: PruebaService,
     private pruebaMapper: PruebaMapperService,
     private router: Router,
+    private notificationService: NotificationService,
     ){
       this.headerService.setHeader('Pruebas - nueva prueba');
   }
@@ -25,7 +27,7 @@ export class PruebasAgregarComponent {
   createPrueba($element: Prueba){
     let pruebaAPI: PruebaAPI = this.pruebaMapper.pruebaToPruebaAPI($element);
     this.servicePrueba.createPrueba(pruebaAPI).subscribe(data => {
-      console.log(data);
+      this.notificationService.openNotification('Prueba creada correctamente', 'Aceptar');
     }, 
     null,
     () => {

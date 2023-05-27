@@ -6,6 +6,9 @@ import { TableActionColumn } from 'src/app/shared/models/TableActionColumn.model
 import { TableColumn } from 'src/app/shared/models/TableColumn.model';
 import { PruebaService } from '../../services/prueba.service';
 import { PruebaMapperService } from '../../services/prueba-mapper.service';
+import { ConfirmationDialogService } from 'src/app/shared/services/confirmation-dialog.service';
+import { NotificationService } from 'src/app/shared/services/notification.service';
+import { EMPTY, concatMap } from 'rxjs';
 
 @Component({
   selector: 'app-pruebas-listar',
@@ -22,6 +25,8 @@ export class PruebasListarComponent {
               private router: Router, 
               private servicePrueba: PruebaService,
               private pruebaMapper: PruebaMapperService,
+              private confirmDialog: ConfirmationDialogService,
+              private notificationService: NotificationService,
   ){}
 
   ngOnInit(): void {
@@ -51,12 +56,22 @@ export class PruebasListarComponent {
   }
   
   deletePrueba($element: Prueba): void{
-    $element.id && this.servicePrueba.deletePrueba($element.id).subscribe(data => {
-        console.log(data);
-        }, 
-        null,
-        () => {
-          this.resetPage()
+
+    let confirm = this.confirmDialog.confirmDialog({
+      title: 'Confirmación de borrado',
+      message: `Esta seguro de que sea eliminar la prueba con Id: ${$element.id}?`,
+      confirmText: 'Aceptar',
+      cancelText: 'Cancelar',
+    });
+
+    confirm.pipe(concatMap(data => {
+        if(data && $element.id){
+            return this.servicePrueba.deletePrueba($element.id); 
+        }
+        return EMPTY;
+      })).subscribe(data=> {
+        this.resetPage();
+        this.notificationService.openNotification("Prueba elmininada correctamente", "Aceptar");
       });
   }
 
