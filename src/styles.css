@@ -3,7 +3,7 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-.inner-table table th.mat-mdc-header-cell.mdc-data-table__header-cell.cdk-header-cell{
+.inner-table table th.mat-mdc-header-cell{
     background-color: rgb(217, 217, 217);
     text-align: justify;
 }
