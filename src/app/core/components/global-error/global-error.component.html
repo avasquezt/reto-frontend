@@ -1,0 +1,11 @@
+<mat-toolbar>
+    <h2>Error: {{data.status}}</h2>
+    <span class="example-spacer"></span>
+    <mat-icon class="icon">report</mat-icon>
+</mat-toolbar>
+<div mat-dialog-content>
+    {{data.message}}
+</div>
+<div mat-dialog-actions [align]="'end'">
+    <button mat-raised-button color="primary" [mat-dialog-close]="false">Aceptar</button>
+</div>
