@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { Afiliado } from 'src/app/core/models/afiliado.model';
 
 @Component({
@@ -19,9 +20,9 @@ export class FormAfiliadosComponent implements OnChanges{
     private fb: FormBuilder
     ){
       this.form = this.fb.group({
-        nombre: ['', Validators.required],
-        correo: ['', Validators.required,],
-        edad: ['', Validators.required],
+        nombre: ['', [Validators.required, Validators.minLength(5)]],
+        correo: ['', [Validators.required, Validators.email]],
+        edad: ['', [Validators.required, Validators.min(0), Validators.max(99)]],
       });
   }
 

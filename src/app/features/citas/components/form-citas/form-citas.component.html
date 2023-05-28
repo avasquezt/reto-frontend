@@ -10,6 +10,9 @@
                     <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
                 </mat-datepicker-toggle>
                 <mat-datepicker #pickerDate></mat-datepicker>
+                <mat-error *ngIf="form.controls['fecha'].hasError('required')">
+                    La fecha es <strong>obligatoria</strong>
+                </mat-error>
             </mat-form-field>
 
         </mat-grid-tile>
@@ -18,8 +21,11 @@
 
             <mat-form-field>
                 <mat-label>Seleccione hora</mat-label>
-                <input matInput step="900" type="time" formControlName="hora">
+                <input matInput step="900" min="08:00" max="18:00" type="time" formControlName="hora">
                 <mat-icon matDatepickerToggleIcon class="mat-datepicker-toggle material-icons-outlined" matIconSuffix>watch_later</mat-icon>
+                <mat-error *ngIf="form.controls['hora'].hasError('required')">
+                    La hora es <strong>obligatoria</strong>
+                </mat-error>
             </mat-form-field>
 
         </mat-grid-tile>
@@ -31,6 +37,9 @@
                   <mat-option></mat-option>
                   <mat-option *ngFor="let prueba of pruebas" [value]="prueba">{{prueba}}</mat-option>
                 </mat-select>
+                <mat-error *ngIf="form.controls['test'].hasError('required')">
+                    Por favor seleccione una prueba
+                </mat-error>
             </mat-form-field>
               
         </mat-grid-tile>
@@ -43,6 +52,9 @@
                   <mat-option></mat-option>
                   <mat-option *ngFor="let afiliado of afiliados" [value]="afiliado">{{afiliado}}</mat-option>
                 </mat-select>
+                <mat-error *ngIf="form.controls['test'].hasError('required')">
+                    Por favor seleccione un afiliado
+                </mat-error>
             </mat-form-field>
 
         </mat-grid-tile>

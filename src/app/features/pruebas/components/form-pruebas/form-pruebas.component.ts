@@ -19,8 +19,8 @@ export class FormPruebasComponent implements OnChanges{
     private fb: FormBuilder
     ){
       this.form = this.fb.group({
-        nombre: ['', Validators.required],
-        descripcion: ['', Validators.required],
+        nombre: ['', [Validators.required, Validators.minLength(5)]],
+        descripcion: ['', [Validators.required, Validators.minLength(5)]],
       });
   }
 
