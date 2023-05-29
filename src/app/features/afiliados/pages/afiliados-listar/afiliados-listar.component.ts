@@ -78,7 +78,7 @@ export class AfiliadosListarComponent implements OnInit{
         return EMPTY;
       })).subscribe(data=> {
         this.getAfiliados();
-        this.notificationService.openNotification("Afiliado elmininado correctamente", "Aceptar");
+        this.notificationService.openNotification("Afiliado eliminado correctamente", "Aceptar");
       });
   }
 

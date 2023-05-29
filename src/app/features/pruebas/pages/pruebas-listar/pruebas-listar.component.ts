@@ -77,7 +77,7 @@ export class PruebasListarComponent {
         return EMPTY;
       })).subscribe(data=> {
         this.getPruebas();
-        this.notificationService.openNotification("Prueba elmininada correctamente", "Aceptar");
+        this.notificationService.openNotification("Prueba eliminada correctamente", "Aceptar");
       });
   }
 

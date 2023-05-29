@@ -78,7 +78,7 @@ export class CitasListarComponent implements OnInit{
         return EMPTY;
       })).subscribe(data=> {
         this.getCitas();
-        this.notificationService.openNotification("Cita elmininada correctamente", "Aceptar");
+        this.notificationService.openNotification("Cita eliminada correctamente", "Aceptar");
       });
   }
 }
