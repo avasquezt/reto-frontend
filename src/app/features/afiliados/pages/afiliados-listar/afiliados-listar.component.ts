@@ -71,15 +71,9 @@ export class AfiliadosListarComponent implements OnInit{
         }
         return EMPTY;
       })).subscribe(data=> {
-        this.resetPage();
+        this.getAfiliados();
         this.notificationService.openNotification("Afiliado elmininado correctamente", "Aceptar");
       });
-  }
-
-  resetPage(): void{
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    this.router.onSameUrlNavigation = 'reload';
-    this.router.navigate(['afiliados']);
   }
 
 }

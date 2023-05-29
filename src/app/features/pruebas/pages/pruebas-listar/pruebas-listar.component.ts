@@ -70,15 +70,9 @@ export class PruebasListarComponent {
         }
         return EMPTY;
       })).subscribe(data=> {
-        this.resetPage();
+        this.getPruebas();
         this.notificationService.openNotification("Prueba elmininada correctamente", "Aceptar");
       });
-  }
-
-  resetPage(): void{
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    this.router.onSameUrlNavigation = 'reload';
-    this.router.navigate(['pruebas']);
   }
 
 }

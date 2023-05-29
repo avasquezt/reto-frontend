@@ -53,7 +53,6 @@ export class CitasListarComponent implements OnInit{
   }
   
   updateCita($element: Cita): void{
-    // console.info($element);
     this.router.navigate(['citas/modificar', $element.id]);
   }
   
@@ -72,14 +71,8 @@ export class CitasListarComponent implements OnInit{
         }
         return EMPTY;
       })).subscribe(data=> {
-        this.resetPage();
+        this.getCitas();
         this.notificationService.openNotification("Cita elmininada correctamente", "Aceptar");
       });
-  }
-
-  resetPage(): void{
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    this.router.onSameUrlNavigation = 'reload';
-    this.router.navigate(['citas']);
   }
 }
