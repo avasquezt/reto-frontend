@@ -1,5 +1,5 @@
 export const environment = {
-    production: true,
+    production: false,
     ApiUrl: {
         base: '/api/controller',
         affiliatesContext: '/affiliates',
