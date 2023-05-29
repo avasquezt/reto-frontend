@@ -41,7 +41,13 @@ export class PruebasListarComponent {
       {columnDef: 'descripcion', header:'Descripción', type: 'string'},
     ]
   
-    this.actionColumn = {header:'Opciones', leftIcon: 'update', rightIcon:'delete_outlined'};
+    this.actionColumn = {
+      header:'Opciones', 
+      leftIcon: 'update',
+      leftIconTootipText: 'Editar prueba',
+      rightIcon:'delete_outlined',
+      rightIconTootipText: 'Eliminar prueba',
+    };
   }
 
   getPruebas(): void{

@@ -13,7 +13,7 @@
 
     <mat-form-field class="example-full-width mb-2">
         <mat-label>Descripci&oacute;n</mat-label>
-        <textarea matInput formControlName="descripcion" placeholder="Ex. It makes me feel..."></textarea>
+        <textarea matInput formControlName="descripcion"></textarea>
         <mat-error *ngIf="form.controls['descripcion'].hasError('required')">
             La descripci&oacute; es <strong>obligatoria</strong>
         </mat-error>

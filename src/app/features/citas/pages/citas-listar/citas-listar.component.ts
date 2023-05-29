@@ -43,7 +43,13 @@ export class CitasListarComponent implements OnInit{
       {columnDef: 'afiliado', header:'Id Afiliado', type: 'number'},
     ]
   
-    this.actionColumn = {header:'Opciones', leftIcon: 'update', rightIcon:'delete_outlined'};
+    this.actionColumn = {
+      header:'Opciones', 
+      leftIcon: 'update',
+      leftIconTootipText: 'Editar cita',
+      rightIcon:'delete_outlined',
+      rightIconTootipText: 'Eliminar cita',
+    };
   }
 
   getCitas(): void{

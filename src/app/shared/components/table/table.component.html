@@ -27,8 +27,8 @@
     <ng-container *ngIf="actionColumn" matColumnDef="operation">
         <th mat-header-cell *matHeaderCellDef>{{actionColumnName}}</th>
         <td mat-cell *matCellDef="let element" > 
-            <button mat-icon-button (click)="leftButtonAction(element)"><mat-icon>{{actionColumn.leftIcon}}</mat-icon></button>
-            <button mat-icon-button (click)="rightButtonAction(element)"><mat-icon>{{actionColumn.rightIcon}}</mat-icon></button>
+            <button mat-icon-button [matTooltip]="actionColumn.leftIconTootipText" (click)="leftButtonAction(element)"><mat-icon>{{actionColumn.leftIcon}}</mat-icon></button>
+            <button mat-icon-button [matTooltip]="actionColumn.rightIconTootipText" (click)="rightButtonAction(element)"><mat-icon>{{actionColumn.rightIcon}}</mat-icon></button>
         </td>
     </ng-container>
 

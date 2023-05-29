@@ -42,7 +42,13 @@ export class AfiliadosListarComponent implements OnInit{
       {columnDef: 'correo', header:'Correo Electrónico', type: 'string'},
     ]
   
-    this.actionColumn = {header:'Opciones', leftIcon: 'update', rightIcon:'delete_outlined'};
+    this.actionColumn = {
+      header:'Opciones', 
+      leftIcon: 'update',
+      leftIconTootipText: 'Editar afiliado',
+      rightIcon:'delete_outlined',
+      rightIconTootipText: 'Eliminar afiliado',
+    };
   }
 
   getAfiliados(): void{

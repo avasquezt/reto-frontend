@@ -20,8 +20,7 @@
 
             <mat-form-field class="example-full-width">
                 <mat-label>Correo Electr&oacute;nico</mat-label>
-                <input type="email" matInput formControlName="correo"
-                        placeholder="address@mail.com">
+                <input type="email" matInput formControlName="correo" placeholder="address@mail.com" autocomplete="off">
                 <mat-error *ngIf="form.controls['correo'].hasError('email')">
                     Por favor ingrese un correo electr&oacute;nico v&aacute;lido
                 </mat-error>
