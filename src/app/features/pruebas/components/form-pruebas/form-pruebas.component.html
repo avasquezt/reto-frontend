@@ -15,7 +15,7 @@
         <mat-label>Descripci&oacute;n</mat-label>
         <textarea matInput formControlName="descripcion"></textarea>
         <mat-error *ngIf="form.controls['descripcion'].hasError('required')">
-            La descripci&oacute; es <strong>obligatoria</strong>
+            La descripci&oacute;n es <strong>obligatoria</strong>
         </mat-error>
         <mat-error *ngIf="form.controls['descripcion'].hasError('minlength')">
             La descripci&oacute;n debe tener una longitud m&iacute;nima de 5 caracteres

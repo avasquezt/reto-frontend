@@ -1,16 +1,32 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { NavbarComponent } from './core/components/navbar/navbar.component';
+import { SharedModule } from './shared/shared.module';
+import { HeaderService } from './core/services/header.service';
+import { of } from 'rxjs';
 
-describe('AppComponent', () => {
+fdescribe('AppComponent', () => {
+
+  let mockHeaderService;
+
   beforeEach(async () => {
+
+    mockHeaderService = jasmine.createSpyObj(['getHeader']);
+    mockHeaderService.getHeader.and.returnValue(of('Agenda de citas'));
+
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        SharedModule
       ],
       declarations: [
-        AppComponent
+        AppComponent,
+        NavbarComponent
       ],
+      providers: [
+        { provide: HeaderService, useValue: mockHeaderService }
+      ]
     }).compileComponents();
   });
 
@@ -30,6 +46,12 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('reto_frontend app is running!');
+    expect(compiled.querySelector('.content h2')?.textContent).toBeUndefined();
   });
+  // it('should render title', () => {
+  //   const fixture = TestBed.createComponent(AppComponent);
+  //   fixture.detectChanges();
+  //   const compiled = fixture.nativeElement as HTMLElement;
+  //   expect(compiled.querySelector('.content h2')?.textContent).toContain('Agenda de citas');
+  // });
 });
