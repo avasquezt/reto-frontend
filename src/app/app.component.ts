@@ -7,15 +7,12 @@ import { Observable } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements AfterContentChecked{
+export class AppComponent{
   title = 'reto_frontend';
-  protected header?: Observable<string>;
+  protected header!: Observable<string>;
 
-  constructor(private headerService: HeaderService, private cdRef:ChangeDetectorRef){}
-
-  ngAfterContentChecked(): void {
+  constructor(private headerService: HeaderService, private cdRef:ChangeDetectorRef){
     this.header = this.headerService.getHeader();
-    this.cdRef.detectChanges();
   }
 
 }
